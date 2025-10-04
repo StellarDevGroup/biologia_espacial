@@ -94,14 +94,17 @@ header input[type="text"] {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto; /* permite scroll vertical apenas no submenu */
+  overflow-x: hidden; /* evita scroll horizontal */
   transition: width 0.3s ease, padding 0.3s ease;
+  max-height: 100vh; /* não ultrapassa a altura da tela */
 }
 
 #submenu-lateral.active {
-  width: 25%; /* só ocupa espaço quando ativo */
+  width: 25%; /* ocupa espaço quando ativo */
   padding: 15px;
 }
+
 
 
 #submenu-lateral h3 {
