@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>SpaceLabs Menu</title>
+</head>
+<body>
+  <header> 
+    <div id="placeholder_form">
+      <form method="post"> 
+        <input type="text" placeholder="🔎 Pesquisar">
+      </form>
+    </div>
+    <div id="title_principal">
+      <h1>spacelabs</h1>
+    </div>  
+  </header>
+
+  <section id="menu">
+    <div id="categorias">
+      <h2>Categorias</h2>
+      <!-- Categorias adicionadas dinamicamente -->
+    </div>
+
+    <div id="submenu-lateral" class="hidden">
+      <!-- Submenu aparecerá aqui depois do clique -->
+    </div>
+
+    <div id="conteudo">
+      <p>Conteúdo do item selecionado aparecerá aqui</p>
+    </div>
+  </section>
+
+  <script>
+    const categorias = [
+      {
+        nome: "Humano",
+        subitens: [
+          { titulo: "Sobre Humanos", url: "https://pt.wikipedia.org/wiki/Corpo_humano" },
+          { titulo: "Pesquisas", url: "https://www.nasa.gov" }
+        ]
+      },
+      {
+        nome: "Plantas",
+        subitens: [
+          { titulo: "Sobre Plantas", url: "https://pt.wikipedia.org/wiki/Plantae" },
+          { titulo: "Pesquisas", url: "https://pmc.ncbi.nlm.nih.gov/" }
+        ]
+      }
+    ];
+
+    const categoriasDiv = document.getElementById("categorias");
+    const submenuLateral = document.getElementById("submenu-lateral");
+    const conteudoDiv = document.getElementById("conteudo");
+
+    // Criar categorias
+    categorias.forEach(cat => {
+      const btnCat = document.createElement("button");
+      btnCat.textContent = cat.nome;
+      btnCat.className = "rider";
+      categoriasDiv.appendChild(btnCat);
+
+      btnCat.addEventListener("click", () => {
+        // Mostrar submenu
+        submenuLateral.classList.remove("hidden");
+        submenuLateral.innerHTML = "";
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = cat.nome;
+        submenuLateral.appendChild(titulo);
+
+        cat.subitens.forEach(item => {
+          const btnSub = document.createElement("button");
+          btnSub.textContent = item.titulo;
+          btnSub.onclick = () => abrirIframe(item.url);
+          submenuLateral.appendChild(btnSub);
+        });
+      });
+    });
+
+    function abrirIframe(url) {
+      conteudoDiv.innerHTML = `<iframe src="${url}"></iframe>`;
+    }
+  </script>
+</body>
+</html>
