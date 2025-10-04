@@ -14,22 +14,21 @@
       </form>
     </div>
     <div id="title_principal">
-      <h1>spacelabs</h1>
+      <h1 id="titulo-principal">spacelabs</h1>
     </div>  
   </header>
 
   <section id="menu">
     <div id="categorias">
       <h2>Categorias</h2>
-      <!-- Categorias adicionadas dinamicamente -->
     </div>
 
-    <div id="submenu-lateral" class="hidden">
-      <!-- Submenu aparecerá aqui depois do clique -->
+    <div id="submenu-lateral">
+      <!-- Submenu será preenchido dinamicamente -->
     </div>
 
     <div id="conteudo">
-      <p>Conteúdo do item selecionado aparecerá aqui</p>
+      <!-- Iframe será inserido dinamicamente -->
     </div>
   </section>
 
@@ -54,8 +53,20 @@
     const categoriasDiv = document.getElementById("categorias");
     const submenuLateral = document.getElementById("submenu-lateral");
     const conteudoDiv = document.getElementById("conteudo");
+    const tituloPrincipal = document.getElementById("titulo-principal");
 
-    // Criar categorias
+    function abrirIframe(url) {
+      // Remove submenu lateral
+      submenuLateral.classList.remove("active");
+      submenuLateral.innerHTML = "";
+      // Exibe iframe ocupando todo o espaço restante
+      conteudoDiv.innerHTML = `<iframe src="${url}"></iframe>`;
+      const iframe = conteudoDiv.querySelector("iframe");
+      iframe.addEventListener("load", () => {
+        iframe.classList.add("loaded");
+      });
+    }
+
     categorias.forEach(cat => {
       const btnCat = document.createElement("button");
       btnCat.textContent = cat.nome;
@@ -63,10 +74,11 @@
       categoriasDiv.appendChild(btnCat);
 
       btnCat.addEventListener("click", () => {
-        // Mostrar submenu
-        submenuLateral.classList.remove("hidden");
+        // Limpa submenu antes de criar
         submenuLateral.innerHTML = "";
+        submenuLateral.classList.add("active");
 
+        // Preenche submenu
         const titulo = document.createElement("h3");
         titulo.textContent = cat.nome;
         submenuLateral.appendChild(titulo);
@@ -80,9 +92,12 @@
       });
     });
 
-    function abrirIframe(url) {
-      conteudoDiv.innerHTML = `<iframe src="${url}"></iframe>`;
-    }
+    // Clicar no título para fechar submenu ou iframe
+    tituloPrincipal.addEventListener("click", () => {
+      submenuLateral.classList.remove("active");
+      submenuLateral.innerHTML = "";
+      conteudoDiv.innerHTML = "";
+    });
   </script>
 </body>
 </html>

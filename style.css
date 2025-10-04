@@ -13,7 +13,7 @@ body {
   height: 100vh;
 }
 
-/* Header */
+/* Header - original */
 header {
   position: relative;
   height: 10vh;
@@ -30,10 +30,19 @@ header input[type="text"] {
   font-size: 14px;
 }
 
-header #title_principal {
+#placeholder_form{
+  display: flex;
+  gap: 10px;
+}
+
+#title_principal {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
 /* Menu principal */
@@ -46,7 +55,6 @@ header #title_principal {
 /* Coluna categorias */
 #categorias {
   width: 20%;
-  background-color: #1e1e1e;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -70,67 +78,78 @@ header #title_principal {
   cursor: pointer;
   font-weight: bold;
   border-radius: 8px;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.2s;
   margin-bottom: 5px;
 }
 
 #categorias .rider:hover {
   background: #555;
+  transform: scale(1.03);
 }
 
-/* Submenu lateral grande */
 #submenu-lateral {
-  width: 25%;
-  background-color: #333;
-  padding: 20px;
+  width: 0; /* inicialmente não ocupa espaço */
+  background-color: #1e1e1e;
+  padding: 0; /* sem padding quando não ativo */
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  transition: all 0.3s ease;
+  overflow: hidden;
+  transition: width 0.3s ease, padding 0.3s ease;
 }
 
-#submenu-lateral.hidden {
-  display: none;
+#submenu-lateral.active {
+  width: 25%; /* só ocupa espaço quando ativo */
+  padding: 15px;
 }
+
 
 #submenu-lateral h3 {
   color: #ffdd00;
-  margin-bottom: 15px;
-  font-size: 20px;
+  margin-bottom: 10px;
 }
 
 #submenu-lateral button {
-  padding: 10px 15px;
-  margin: 8px 0;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
   background: none;
   border: none;
-  color: #ffdd00;
+  color: white;
   text-align: left;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
-  font-size: 16px;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
 }
 
 #submenu-lateral button:hover {
   background: #555;
+  transform: scale(1.05);
 }
 
-/* Coluna conteúdo */
+/* Coluna conteúdo - ocupa o restante do espaço da tela */
 #conteudo {
   flex: 1;
   background: #222;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
   padding: 20px;
   overflow: auto;
 }
 
+/* Iframe dentro do conteudo */
 #conteudo iframe {
   width: 100%;
   height: 100%;
   border: none;
   border-radius: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#conteudo iframe.loaded {
+  opacity: 1;
+  transform: translateY(0);
 }
