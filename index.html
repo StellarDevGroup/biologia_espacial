@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>SpaceLabs Menu</title>
+  <title>BioSpace Menu</title>
 </head>
 <body>
   <header> 
@@ -14,7 +14,7 @@
       </form>
     </div>
     <div id="title_principal">
-      <h1 id="titulo-principal">spacelabs</h1>
+      <h1 id="titulo-principal">BioSpace</h1>
     </div>  
   </header>
 
@@ -24,11 +24,11 @@
     </div>
 
     <div id="submenu-lateral">
-      <!-- Submenu será preenchido dinamicamente -->
+      <!-- Submenu aparece aqui -->
     </div>
 
     <div id="conteudo">
-      <!-- Iframe será inserido dinamicamente -->
+      <!-- Fundo inicial -->
     </div>
   </section>
 
@@ -45,8 +45,8 @@
         nome: "Plantas",
         subitens: [
           { titulo: "Sobre Plantas", url: "https://pt.wikipedia.org/wiki/Plantae" },
-          { titulo: "Pesquisas", url: "https://pmc.ncbi.nlm.nih.gov/" }
-
+          { titulo: "Pesquisas", url: "https://pmc.ncbi.nlm.nih.gov/" },
+          { titulo: "Outra Pesquisa", url: "https://www.google.com" }
         ]
       }
     ];
@@ -57,11 +57,12 @@
     const tituloPrincipal = document.getElementById("titulo-principal");
 
     function abrirIframe(url) {
-      // Remove submenu lateral
       submenuLateral.classList.remove("active");
       submenuLateral.innerHTML = "";
-      // Exibe iframe ocupando todo o espaço restante
+
+      conteudoDiv.classList.add("sem-fundo");
       conteudoDiv.innerHTML = `<iframe src="${url}"></iframe>`;
+
       const iframe = conteudoDiv.querySelector("iframe");
       iframe.addEventListener("load", () => {
         iframe.classList.add("loaded");
@@ -69,34 +70,30 @@
     }
 
     categorias.forEach(cat => {
-      const btnCat = document.createElement("button");
-      btnCat.textContent = cat.nome;
-      btnCat.className = "rider";
-      categoriasDiv.appendChild(btnCat);
+      const btn = document.createElement("button");
+      btn.classList.add("rider");
+      btn.textContent = cat.nome;
 
-      btnCat.addEventListener("click", () => {
-        // Limpa submenu antes de criar
-        submenuLateral.innerHTML = "";
+      btn.addEventListener("click", () => {
         submenuLateral.classList.add("active");
+        submenuLateral.innerHTML = `<h3>${cat.nome}</h3>`;
 
-        // Preenche submenu
-        const titulo = document.createElement("h3");
-        titulo.textContent = cat.nome;
-        submenuLateral.appendChild(titulo);
-
-        cat.subitens.forEach(item => {
-          const btnSub = document.createElement("button");
-          btnSub.textContent = item.titulo;
-          btnSub.onclick = () => abrirIframe(item.url);
-          submenuLateral.appendChild(btnSub);
+        cat.subitens.forEach(sub => {
+          const subBtn = document.createElement("button");
+          subBtn.textContent = sub.titulo;
+          subBtn.addEventListener("click", () => abrirIframe(sub.url));
+          submenuLateral.appendChild(subBtn);
         });
       });
+
+      categoriasDiv.appendChild(btn);
     });
 
-    // Clicar no título para fechar submenu ou iframe
+    // Resetar para o fundo inicial ao clicar no título
     tituloPrincipal.addEventListener("click", () => {
       submenuLateral.classList.remove("active");
       submenuLateral.innerHTML = "";
+      conteudoDiv.classList.remove("sem-fundo");
       conteudoDiv.innerHTML = "";
     });
   </script>

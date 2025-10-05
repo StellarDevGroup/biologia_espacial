@@ -13,7 +13,7 @@ body {
   height: 100vh;
 }
 
-/* Header - original */
+/* Header */
 header {
   position: relative;
   height: 10vh;
@@ -30,7 +30,7 @@ header input[type="text"] {
   font-size: 14px;
 }
 
-#placeholder_form{
+#placeholder_form {
   display: flex;
   gap: 10px;
 }
@@ -39,20 +39,17 @@ header input[type="text"] {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 10px;
   cursor: pointer;
 }
 
-/* Menu principal */
+/* Menu */
 #menu {
   flex: 1;
   display: flex;
   overflow: hidden;
 }
 
-/* Coluna categorias */
+/* Categorias */
 #categorias {
   width: 20%;
   display: flex;
@@ -87,25 +84,38 @@ header input[type="text"] {
   transform: scale(1.03);
 }
 
+/* Submenu */
 #submenu-lateral {
-  width: 0; /* inicialmente não ocupa espaço */
+  width: 0;
   background-color: #1e1e1e;
-  padding: 0; /* sem padding quando não ativo */
+  padding: 0;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* permite scroll vertical apenas no submenu */
-  overflow-x: hidden; /* evita scroll horizontal */
+  overflow-y: auto;
+  overflow-x: hidden;
   transition: width 0.3s ease, padding 0.3s ease;
-  max-height: 100vh; /* não ultrapassa a altura da tela */
+  max-height: 100vh;
+
+  scrollbar-width: thin;
+  scrollbar-color: #ff6600 transparent;
+}
+
+#submenu-lateral::-webkit-scrollbar {
+  width: 8px;
+}
+#submenu-lateral::-webkit-scrollbar-track {
+  background: transparent;
+}
+#submenu-lateral::-webkit-scrollbar-thumb {
+  background: #ff6600;
+  border-radius: 6px;
 }
 
 #submenu-lateral.active {
-  width: 25%; /* ocupa espaço quando ativo */
+  width: 25%;
   padding: 15px;
 }
-
-
 
 #submenu-lateral h3 {
   color: #ffdd00;
@@ -131,17 +141,20 @@ header input[type="text"] {
   transform: scale(1.05);
 }
 
-/* Coluna conteúdo - ocupa o restante do espaço da tela */
+/* Conteúdo */
 #conteudo {
   flex: 1;
-  background: #222;
-  display: flex;
-  flex-direction: column;
+  background: url('https://picsum.photos/1200/800?blur=2') center/cover no-repeat, #222;
+  border-radius: 8px;
   padding: 20px;
   overflow: auto;
+  transition: background 0.3s ease;
 }
 
-/* Iframe dentro do conteudo */
+#conteudo.sem-fundo {
+  background: none;
+}
+
 #conteudo iframe {
   width: 100%;
   height: 100%;
