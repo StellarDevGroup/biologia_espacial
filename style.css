@@ -29,6 +29,15 @@ header input[type="text"] {
   border: none;
   font-size: 14px;
 }
+#casinha{
+  display: flex;
+  text-align: center;
+  margin-right: 10px;
+}
+#home:hover{
+  fill: darkblue;
+  cursor: pointer;
+}
 
 #placeholder_form {
   display: flex;
@@ -144,7 +153,6 @@ header input[type="text"] {
 /* Conteúdo */
 #conteudo {
   flex: 1;
-  background: url('https://picsum.photos/1200/800?blur=2') center/cover no-repeat, #222;
   border-radius: 8px;
   padding: 20px;
   overflow: auto;
