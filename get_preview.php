@@ -2,22 +2,22 @@
 header('Content-Type: application/json; charset=utf-8');
 
 $url = $_GET['url'] ?? '';
-$OPENAI_API_KEY = "api_aqui_nao_tem_ela";
+$OPENAI_API_KEY = "";
 
 if (!$url) {
     echo json_encode(["preview" => "URL inválida"]);
     exit;
 }
 
-$prompt = "Resuma o conteúdo do site: $url em no minim0 150 e no maximo 300 caracteres de forma clara e objetiva.";
+$prompt = "Resuma o conteúdo do site: $url em no minim0 550 e no maximo 600 palavras. de forma que nenhum conteudo deixe de ser abordado, de forma clara e objetiva.";
 
 $data = [
-    "model" => "gpt-4o-mini",
+    "model" => "gpt-4o",
     "messages" => [
         ["role"=>"system","content"=>"Você é um assistente que cria resumos curtos, claros e objetivos."],
         ["role"=>"user","content"=>$prompt]
     ],
-    "max_tokens"=>200
+    "max_tokens"=>2000
 ];
 
 $ch = curl_init("https://api.openai.com/v1/chat/completions");
