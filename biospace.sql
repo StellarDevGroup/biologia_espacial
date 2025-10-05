@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS biospace
+DROP DATABASE IF EXISTS biospace;
 CREATE DATABASE biospace;
-USE biospace
+USE biospace;
 
 CREATE TABLE categorias (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -14,7 +14,7 @@ CREATE TABLE subitens (
   palavras_chave VARCHAR(255),
   url TEXT,
   FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
-)
+);
 INSERT INTO categorias (id, nome) VALUES (1, 'voo espacial');
 INSERT INTO categorias (id, nome) VALUES (2, 'espaço');
 INSERT INTO categorias (id, nome) VALUES (3, 'internacional');
