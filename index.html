@@ -7,6 +7,10 @@
   <title>BioSpace Menu</title>
 </head>
 <body>
+
+<!-- ===============================
+     HEADER
+     =============================== -->
 <header> 
   <div id="casinha">
     <svg id="home" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="35" height="50">
@@ -23,6 +27,9 @@
   </div>  
 </header>
 
+<!-- ===============================
+     MENU PRINCIPAL
+     =============================== -->
 <section id="menu">
   <div id="categorias">
     <h2>Categorias</h2>
@@ -33,10 +40,13 @@
   </div>
 
   <div id="conteudo">
-    <!-- Fundo inicial -->
+    <!-- Preview aparecerá aqui -->
   </div>
 </section>
 
+<!-- ===============================
+     SCRIPT
+     =============================== -->
 <script>
 const categoriasDiv = document.getElementById("categorias");
 const submenuLateral = document.getElementById("submenu-lateral");
@@ -44,7 +54,7 @@ const conteudoDiv = document.getElementById("conteudo");
 const tituloPrincipal = document.getElementById("titulo-principal");
 const home = document.getElementById("home");
 
-// Função para mostrar preview + botão
+// Função para mostrar o preview na tela
 function mostrarPreview(texto, url) {
   submenuLateral.classList.remove("active");
   submenuLateral.innerHTML = "";
@@ -58,11 +68,14 @@ function mostrarPreview(texto, url) {
   `;
 }
 
-// Pegar categorias do PHP (JSON)
+// =====================
+// Carregar categorias do PHP
+// =====================
 fetch('get_categorias.php')
   .then(res => res.json())
   .then(categorias => {
     categorias.forEach(cat => {
+      // Cria botão para categoria
       const btn = document.createElement("button");
       btn.classList.add("rider");
       btn.textContent = cat.nome;
@@ -71,12 +84,17 @@ fetch('get_categorias.php')
         submenuLateral.classList.add("active");
         submenuLateral.innerHTML = `<h3>${cat.nome}</h3>`;
 
+        // Cria botão para cada subitem
         cat.subitens.forEach(sub => {
           const subBtn = document.createElement("button");
           subBtn.textContent = sub.titulo;
 
+          // Ao clicar, chama o PHP que gera o resumo via IA
           subBtn.addEventListener("click", () => {
-            mostrarPreview(sub.preview || "Sem preview disponível.", sub.url);
+            fetch(`get_preview.php?url=${encodeURIComponent(sub.url)}`)
+              .then(r => r.json())
+              .then(data => mostrarPreview(data.preview, sub.url))
+              .catch(err => mostrarPreview("Erro ao gerar preview.", sub.url));
           });
 
           submenuLateral.appendChild(subBtn);
@@ -88,7 +106,9 @@ fetch('get_categorias.php')
   })
   .catch(err => console.error("Erro ao carregar categorias:", err));
 
+// =====================
 // Resetar para fundo inicial
+// =====================
 tituloPrincipal.addEventListener("click", () => {
   submenuLateral.classList.remove("active");
   submenuLateral.innerHTML = "";
