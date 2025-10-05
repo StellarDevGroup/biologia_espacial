@@ -1,136 +1,220 @@
+/* Reset e fonte global */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 
 body {
-  background-color: black;
-  color: white;
+  background-color: #0a0a0a; /* preto profundo */
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
 }
 
 /* Header */
 header {
   position: relative;
   height: 10vh;
-  background-color: blueviolet;
+  background: linear-gradient(90deg, #000000, #111111); /* tons de preto */
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 25px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.7);
+}
+
+#casinha {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+#home {
+  width: 35px;
+  height: 35px;
+  fill: #ffffff;
+  transition: fill 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+
+#home:hover {
+  fill: #1e90ff; /* azul elétrico */
+  transform: scale(1.2);
+}
+
+#placeholder_form {
+  display: flex;
+  gap: 12px;
+  flex: 1;
 }
 
 header input[type="text"] {
-  padding: 8px 12px;
-  border-radius: 20px;
+  padding: 10px 16px;
+  border-radius: 30px;
   border: none;
   font-size: 14px;
+  outline: none;
+  background-color: #111111;
+  color: #ffffff;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
-header #title_principal {
+header input[type="text"]:focus {
+  background-color: #1a1a1a;
+  box-shadow: 0 0 8px #1e90ff;
+}
+
+#title_principal {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 0 0 8px #1e90ff;
 }
 
-/* Menu principal */
+#title_principal:hover {
+  text-shadow: 0 0 16px #1e90ff;
+}
+
+/* Menu */
 #menu {
   flex: 1;
   display: flex;
   overflow: hidden;
 }
 
-/* Coluna categorias */
+/* Categorias */
 #categorias {
   width: 20%;
-  background-color: #1e1e1e;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 15px;
-  border-right: 2px solid #444;
+  padding: 20px;
+  border-right: 2px solid #222222;
   overflow-y: auto;
+  background: #111111;
 }
 
 #categorias h2 {
-  margin-bottom: 15px;
-  color: #ffdd00;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
 }
 
 #categorias .rider {
   width: 100%;
-  padding: 10px;
-  background: none;
+  padding: 14px;
+  background: transparent;
   border: none;
-  color: white;
+  color: #ffffff;
   text-align: left;
   cursor: pointer;
-  font-weight: bold;
-  border-radius: 8px;
-  transition: background 0.3s;
-  margin-bottom: 5px;
+  font-weight: 600;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 #categorias .rider:hover {
-  background: #555;
+  background: #222222;
+  transform: scale(1.03);
+  box-shadow: 0 0 6px #1e90ff;
 }
 
-/* Submenu lateral grande */
+/* Submenu lateral */
 #submenu-lateral {
-  width: 25%;
-  background-color: #333;
-  padding: 20px;
+  width: 0;
+  background-color: #111111;
+  padding: 0;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  transition: all 0.3s ease;
+  overflow-x: hidden;
+  transition: width 0.4s ease, padding 0.4s ease;
+  max-height: 100vh;
+
+  scrollbar-width: thin;
+  scrollbar-color: #1e90ff transparent;
 }
 
-#submenu-lateral.hidden {
-  display: none;
+#submenu-lateral::-webkit-scrollbar {
+  width: 8px;
+}
+
+#submenu-lateral::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#submenu-lateral::-webkit-scrollbar-thumb {
+  background: #1e90ff;
+  border-radius: 6px;
+}
+
+#submenu-lateral.active {
+  width: 28%;
+  padding: 20px;
 }
 
 #submenu-lateral h3 {
-  color: #ffdd00;
   margin-bottom: 15px;
-  font-size: 20px;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 #submenu-lateral button {
-  padding: 10px 15px;
-  margin: 8px 0;
-  background: none;
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  background: transparent;
   border: none;
-  color: #ffdd00;
+  color: #ffffff;
   text-align: left;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s;
-  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 #submenu-lateral button:hover {
-  background: #555;
+  background: #222222;
+  transform: scale(1.05);
+  box-shadow: 0 0 6px #1e90ff;
 }
 
-/* Coluna conteúdo */
+/* Conteúdo principal */
 #conteudo {
   flex: 1;
-  background: #222;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 20px;
+  background: url('imagens/fundo-bioespacial.jpg') center/cover no-repeat, #0a0a0a;
+  border-radius: 12px;
+  padding: 25px;
   overflow: auto;
+  transition: background 0.4s ease, box-shadow 0.4s;
+  box-shadow: inset 0 0 10px rgba(30, 144, 255, 0.2);
+}
+
+#conteudo.sem-fundo {
+  background: none;
 }
 
 #conteudo iframe {
   width: 100%;
   height: 100%;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#conteudo iframe.loaded {
+  opacity: 1;
+  transform: translateY(0);
 }
