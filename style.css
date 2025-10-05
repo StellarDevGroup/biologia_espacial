@@ -212,7 +212,6 @@ header input[type="text"]:focus {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.4s ease, transform 0.4s ease;
-  background-color: #111111;
 }
 
 #conteudo iframe.loaded {
