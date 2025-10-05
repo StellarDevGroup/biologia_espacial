@@ -15,14 +15,15 @@ CREATE TABLE subitens (
   url TEXT,
   FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
 );
-INSERT INTO categorias (id, nome) VALUES (1, 'voo espacial');
-INSERT INTO categorias (id, nome) VALUES (2, 'espaço');
-INSERT INTO categorias (id, nome) VALUES (3, 'internacional');
-INSERT INTO categorias (id, nome) VALUES (4, 'musculos');
-INSERT INTO categorias (id, nome) VALUES (5, 'respostas');
-INSERT INTO categorias (id, nome) VALUES (6, 'celulas');
-INSERT INTO categorias (id, nome) VALUES (7, 'microgravidade');
-INSERT INTO categorias (id, nome) VALUES (8, 'estações');
+INSERT INTO categorias (id, nome) VALUES (1, 'Space Flight');
+INSERT INTO categorias (id, nome) VALUES (2, 'Space');
+INSERT INTO categorias (id, nome) VALUES (3, 'International');
+INSERT INTO categorias (id, nome) VALUES (4, 'Muscles');
+INSERT INTO categorias (id, nome) VALUES (5, 'Responses');
+INSERT INTO categorias (id, nome) VALUES (6, 'Cells');
+INSERT INTO categorias (id, nome) VALUES (7, 'Microgravity');
+INSERT INTO categorias (id, nome) VALUES (8, 'Stations');
+
 INSERT INTO subitens (id, titulo, url, palavras_chave, categoria_id) VALUES (1, 'Mice in Bion-M 1 space mission: training and selection', 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4136787/', 'space, bion-m', 2);
 INSERT INTO subitens (id, titulo, url, palavras_chave, categoria_id) VALUES (2, 'Microgravity induces pelvic bone loss through osteoclastic activity, osteocytic osteolysis, and osteoblastic cell cycle inhibition by CDKN1a/p21', 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3630201/', 'osteocytic, inhibition', 2);
 INSERT INTO subitens (id, titulo, url, palavras_chave, categoria_id) VALUES (3, 'Stem Cell Health and Tissue Regeneration in Microgravity', 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11988870/', 'microgravity, health', 7);

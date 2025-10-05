@@ -1,4 +1,6 @@
-/* Reset e fonte global */
+/* ===============================
+   Reset e fonte global
+   =============================== */
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +9,7 @@
 }
 
 body {
-  background-color: #0a0a0a; /* preto profundo */
+  background-color: #0a0a0a;
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -15,22 +17,20 @@ body {
   overflow: hidden;
 }
 
-/* Header */
+/* ===============================
+   Header
+   =============================== */
 header {
   position: relative;
   height: 10vh;
-  background: linear-gradient(90deg, #000000, #111111); /* tons de preto */
+  background: linear-gradient(90deg, #000000, #111111);
   display: flex;
   align-items: center;
   padding: 0 25px;
   box-shadow: 0 3px 15px rgba(0,0,0,0.7);
 }
 
-#casinha {
-  display: flex;
-  align-items: center;
-  margin-right: 15px;
-}
+#casinha { display: flex; align-items: center; margin-right: 15px; }
 
 #home {
   width: 35px;
@@ -40,16 +40,9 @@ header {
   cursor: pointer;
 }
 
-#home:hover {
-  fill: #1e90ff; /* azul elétrico */
-  transform: scale(1.2);
-}
+#home:hover { fill: #1e90ff; transform: scale(1.2); }
 
-#placeholder_form {
-  display: flex;
-  gap: 12px;
-  flex: 1;
-}
+#placeholder_form { display: flex; gap: 12px; flex: 1; }
 
 header input[type="text"] {
   padding: 10px 16px;
@@ -79,18 +72,16 @@ header input[type="text"]:focus {
   text-shadow: 0 0 8px #1e90ff;
 }
 
-#title_principal:hover {
-  text-shadow: 0 0 16px #1e90ff;
-}
+#title_principal:hover { text-shadow: 0 0 16px #1e90ff; }
 
-/* Menu */
-#menu {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
+/* ===============================
+   Menu
+   =============================== */
+#menu { flex: 1; display: flex; overflow: hidden; }
 
-/* Categorias */
+/* ===============================
+   Categories
+   =============================== */
 #categorias {
   width: 20%;
   display: flex;
@@ -101,12 +92,7 @@ header input[type="text"]:focus {
   background: #111111;
 }
 
-#categorias h2 {
-  margin-bottom: 20px;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #ffffff;
-}
+#categorias h2 { margin-bottom: 20px; font-size: 1.5rem; font-weight: 700; color: #ffffff; }
 
 #categorias .rider {
   width: 100%;
@@ -120,6 +106,7 @@ header input[type="text"]:focus {
   border-radius: 12px;
   margin-bottom: 8px;
   transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  font-size: 1.0rem;
 }
 
 #categorias .rider:hover {
@@ -128,7 +115,9 @@ header input[type="text"]:focus {
   box-shadow: 0 0 6px #1e90ff;
 }
 
-/* Submenu lateral */
+/* ===============================
+   Submenu lateral
+   =============================== */
 #submenu-lateral {
   width: 0;
   background-color: #111111;
@@ -140,34 +129,17 @@ header input[type="text"]:focus {
   overflow-x: hidden;
   transition: width 0.4s ease, padding 0.4s ease;
   max-height: 100vh;
-
   scrollbar-width: thin;
   scrollbar-color: #1e90ff transparent;
 }
 
-#submenu-lateral::-webkit-scrollbar {
-  width: 8px;
-}
+#submenu-lateral::-webkit-scrollbar { width: 8px; }
+#submenu-lateral::-webkit-scrollbar-track { background: transparent; }
+#submenu-lateral::-webkit-scrollbar-thumb { background: #1e90ff; border-radius: 6px; }
 
-#submenu-lateral::-webkit-scrollbar-track {
-  background: transparent;
-}
+#submenu-lateral.active { width: 28%; padding: 20px; }
 
-#submenu-lateral::-webkit-scrollbar-thumb {
-  background: #1e90ff;
-  border-radius: 6px;
-}
-
-#submenu-lateral.active {
-  width: 28%;
-  padding: 20px;
-}
-
-#submenu-lateral h3 {
-  margin-bottom: 15px;
-  color: #ffffff;
-  font-weight: 700;
-}
+#submenu-lateral h3 { margin-bottom: 15px; color: #ffffff; font-weight: 700; font-size: 1.3rem; }
 
 #submenu-lateral button {
   width: 100%;
@@ -189,7 +161,9 @@ header input[type="text"]:focus {
   box-shadow: 0 0 6px #1e90ff;
 }
 
-/* Conteúdo principal */
+/* ===============================
+   Conteúdo principal
+   =============================== */
 #conteudo {
   flex: 1;
   background: url('imagens/fundo-bioespacial.jpg') center/cover no-repeat, #0a0a0a;
@@ -201,20 +175,27 @@ header input[type="text"]:focus {
 }
 
 #conteudo.sem-fundo {
-  background: none;
-}
+   background: none; 
+  }
 
-#conteudo iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  background: #111;
   border-radius: 12px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  max-width: 700px;
+  margin: 20px auto;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
-#conteudo iframe.loaded {
-  opacity: 1;
-  transform: translateY(0);
+.preview p { 
+  margin: 0; text-align: justify; 
+}
+#title_preview { 
+  text-align: justify; font-size: 1.3rem; 
 }

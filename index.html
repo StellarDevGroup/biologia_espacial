@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>BioSpace Menu</title>
+  <title>BioSpace</title>
 </head>
 <body>
 
@@ -19,7 +19,7 @@
   </div>
   <div id="placeholder_form">
     <form method="post"> 
-      <input type="text" placeholder="🔎 Pesquisar">
+      <input type="text" placeholder="🔎 Search">
     </form>
   </div>
   <div id="title_principal">
@@ -28,15 +28,15 @@
 </header>
 
 <!-- ===============================
-     MENU PRINCIPAL
+     MAIN MENU
      =============================== -->
 <section id="menu">
   <div id="categorias">
-    <h2>Categorias</h2>
+    <h2>Categories</h2>
   </div>
 
   <div id="submenu-lateral">
-    <!-- Submenu aparece aqui -->
+    <!-- Submenu aparecerá aqui -->
   </div>
 
   <div id="conteudo">
@@ -53,76 +53,126 @@ const submenuLateral = document.getElementById("submenu-lateral");
 const conteudoDiv = document.getElementById("conteudo");
 const tituloPrincipal = document.getElementById("titulo-principal");
 const home = document.getElementById("home");
+const searchForm = document.querySelector("#placeholder_form form");
+const searchInput = searchForm.querySelector("input");
 
+// =====================
 // Função para mostrar o preview na tela
-function mostrarPreview(texto, url) {
-  submenuLateral.classList.remove("active");
-  submenuLateral.innerHTML = "";
+// =====================
+function showPreview(url, title) {
+    submenuLateral.classList.remove("active");
+    submenuLateral.innerHTML = "";
+    conteudoDiv.classList.add("sem-fundo");
+    conteudoDiv.innerHTML = `<p>Loading summary...</p>`;
 
-  conteudoDiv.classList.add("sem-fundo");
-  conteudoDiv.innerHTML = `
-    <div class="preview">
-      <p>${texto}</p>
-      <a href="${url}" target="_blank" class="ver-site-btn">Ver no site</a>
-    </div>
-  `;
+    fetch(`get_preview.php?url=${encodeURIComponent(url)}`)
+        .then(res => res.json())
+        .then(data => {
+            conteudoDiv.innerHTML = `
+                <div class="preview">
+                    <h2 id="title_preview">${title}</h2>
+                    <p>${data.preview}</p>
+                </div>
+            `;
+        })
+        .catch(() => {
+            conteudoDiv.innerHTML = `
+                <div class="preview">
+                    <h2>${title}</h2>
+                    <p>Error loading summary.</p>
+                </div>
+            `;
+        });
+}
+
+// =====================
+// Função para criar botão de subitem
+// =====================
+function createSubBtn(sub) {
+    const subBtn = document.createElement("button");
+    subBtn.textContent = sub.titulo;
+    subBtn.addEventListener("click", () => showPreview(sub.url, sub.titulo));
+    return subBtn;
 }
 
 // =====================
 // Carregar categorias do PHP
 // =====================
+let allCategories = [];
 fetch('get_categorias.php')
-  .then(res => res.json())
-  .then(categorias => {
-    categorias.forEach(cat => {
-      // Cria botão para categoria
-      const btn = document.createElement("button");
-      btn.classList.add("rider");
-      btn.textContent = cat.nome;
+    .then(res => res.json())
+    .then(categories => {
+        allCategories = categories;
+        renderCategories(categories);
+    })
+    .catch(err => console.error("Erro ao carregar categorias:", err));
 
-      btn.addEventListener("click", () => {
-        submenuLateral.classList.add("active");
-        submenuLateral.innerHTML = `<h3>${cat.nome}</h3>`;
+// =====================
+// Renderizar categorias e subitens
+// =====================
+function renderCategories(categories) {
+    categoriasDiv.innerHTML = "";
+    categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.classList.add("rider");
+        btn.textContent = cat.nome;
 
-        // Cria botão para cada subitem
-        cat.subitens.forEach(sub => {
-          const subBtn = document.createElement("button");
-          subBtn.textContent = sub.titulo;
-
-          // Ao clicar, chama o PHP que gera o resumo via IA
-          subBtn.addEventListener("click", () => {
-            fetch(`get_preview.php?url=${encodeURIComponent(sub.url)}`)
-              .then(r => r.json())
-              .then(data => mostrarPreview(data.preview, sub.url))
-              .catch(err => mostrarPreview("Erro ao gerar preview.", sub.url));
-          });
-
-          submenuLateral.appendChild(subBtn);
+        btn.addEventListener("click", () => {
+            submenuLateral.classList.add("active");
+            submenuLateral.innerHTML = `<h3>${cat.nome}</h3>`;
+            cat.subitens.forEach(sub => {
+                submenuLateral.appendChild(createSubBtn(sub));
+            });
         });
-      });
 
-      categoriasDiv.appendChild(btn);
+        categoriasDiv.appendChild(btn);
     });
-  })
-  .catch(err => console.error("Erro ao carregar categorias:", err));
+}
+
+// =====================
+// Pesquisa
+// =====================
+searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) return;
+
+    submenuLateral.classList.add("active");
+    submenuLateral.innerHTML = `<h3>Search results for "${query}"</h3>`;
+
+    let results = [];
+    allCategories.forEach(cat => {
+        cat.subitens.forEach(sub => {
+            if (sub.titulo.toLowerCase().includes(query)) {
+                results.push(sub);
+            }
+        });
+    });
+
+    if (results.length === 0) {
+        submenuLateral.innerHTML += "<p>No results found.</p>";
+    } else {
+        results.forEach(sub => {
+            submenuLateral.appendChild(createSubBtn(sub));
+        });
+    }
+
+    conteudoDiv.classList.remove("sem-fundo");
+    conteudoDiv.innerHTML = "";
+});
 
 // =====================
 // Resetar para fundo inicial
 // =====================
-tituloPrincipal.addEventListener("click", () => {
-  submenuLateral.classList.remove("active");
-  submenuLateral.innerHTML = "";
-  conteudoDiv.classList.remove("sem-fundo");
-  conteudoDiv.innerHTML = "";
-});
+tituloPrincipal.addEventListener("click", resetMenu);
+home.addEventListener("click", resetMenu);
 
-home.addEventListener("click", () => {
-  submenuLateral.classList.remove("active");
-  submenuLateral.innerHTML = "";
-  conteudoDiv.classList.remove("sem-fundo");
-  conteudoDiv.innerHTML = "";
-});
+function resetMenu() {
+    submenuLateral.classList.remove("active");
+    submenuLateral.innerHTML = "";
+    conteudoDiv.classList.remove("sem-fundo");
+    conteudoDiv.innerHTML = "";
+    searchInput.value = "";
+}
+
 </script>
-
-</body>
-</html>
