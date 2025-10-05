@@ -11,7 +11,7 @@ CREATE TABLE subitens (
   titulo VARCHAR(255),
   url TEXT,
   FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
-);
+)
 INSERT INTO categorias (id, nome) VALUES (1, 'voo espacial');
 INSERT INTO categorias (id, nome) VALUES (2, 'espaço');
 INSERT INTO categorias (id, nome) VALUES (3, 'internacional');
