@@ -1,0 +1,14 @@
+CREATE DATABASE IF EXISTS biospace
+
+CREATE TABLE categorias (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(255)
+);
+
+CREATE TABLE subitens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  categoria_id INT,
+  titulo VARCHAR(255),
+  url TEXT,
+  FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
+);
