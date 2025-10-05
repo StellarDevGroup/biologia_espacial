@@ -35,78 +35,74 @@
     </div>
   </section>
 
-  <script>
-    const categorias = [
-      {
-        nome: "Humano",
-        subitens: [
-          { titulo: "Sobre Humanos", url: "https://pt.wikipedia.org/wiki/Corpo_humano" },
-          { titulo: "Pesquisas", url: "https://www.nasa.gov" }
-        ]
-      },
-      {
-        nome: "Plantas",
-        subitens: [
-          { titulo: "Sobre Plantas", url: "https://pt.wikipedia.org/wiki/Plantae" },
-          { titulo: "Pesquisas", url: "https://pmc.ncbi.nlm.nih.gov/" },
-          { titulo: "Outra Pesquisa", url: "https://www.google.com" }
-        ]
-      }
-    ];
+ <script>
+  // variaveis criadas para pegar ids dos documentos
+  const categoriasDiv = document.getElementById("categorias");
+  const submenuLateral = document.getElementById("submenu-lateral");
+  const conteudoDiv = document.getElementById("conteudo");
+  const tituloPrincipal = document.getElementById("titulo-principal");
+  const home = document.getElementById("home");
 
-    const categoriasDiv = document.getElementById("categorias");
-    const submenuLateral = document.getElementById("submenu-lateral");
-    const conteudoDiv = document.getElementById("conteudo");
-    const tituloPrincipal = document.getElementById("titulo-principal");
-    const home = document.getElementById("home")
+  // função para abrir um iframe na tela depois de clicar no submenu 
+  function abrirIframe(url) {
+    submenuLateral.classList.remove("active");
+    submenuLateral.innerHTML = "";
 
-    function abrirIframe(url) {
-      submenuLateral.classList.remove("active");
-      submenuLateral.innerHTML = "";
+    conteudoDiv.classList.add("sem-fundo");
+    conteudoDiv.innerHTML = `<iframe src="${url}"></iframe>`;
 
-      conteudoDiv.classList.add("sem-fundo");
-      conteudoDiv.innerHTML = `<iframe src="${url}"></iframe>`;
+    const iframe = conteudoDiv.querySelector("iframe");
+    iframe.addEventListener("load", () => {
+      iframe.classList.add("loaded");
+    });
+  }
 
-      const iframe = conteudoDiv.querySelector("iframe");
-      iframe.addEventListener("load", () => {
-        iframe.classList.add("loaded");
-      });
-    }
+  // Pegar categorias do PHP (JSON) ao invés do array estático
+  fetch('get_categorias.php')
+    .then(res => res.json()) // converte a resposta em JSON
+    .then(categorias => {
+      // percorre todas as categorias
+      categorias.forEach(cat => {
+        const btn = document.createElement("button"); // cria botão da categoria
+        btn.classList.add("rider"); // adiciona classe
+        btn.textContent = cat.nome; // adiciona texto do botão
 
-    categorias.forEach(cat => {
-      const btn = document.createElement("button");
-      btn.classList.add("rider");
-      btn.textContent = cat.nome;
+        // evento de clique para mostrar submenu da categoria
+        btn.addEventListener("click", () => {
+          submenuLateral.classList.add("active"); // mostra submenu
+          submenuLateral.innerHTML = `<h3>${cat.nome}</h3>`; // título do submenu
 
-      btn.addEventListener("click", () => {
-        submenuLateral.classList.add("active");
-        submenuLateral.innerHTML = `<h3>${cat.nome}</h3>`;
-
-        cat.subitens.forEach(sub => {
-          const subBtn = document.createElement("button");
-          subBtn.textContent = sub.titulo;
-          subBtn.addEventListener("click", () => abrirIframe(sub.url));
-          submenuLateral.appendChild(subBtn);
+          // percorre todos os subitens da categoria
+          cat.subitens.forEach(sub => {
+            const subBtn = document.createElement("button"); // cria botão do subitem
+            subBtn.textContent = sub.titulo; // texto do subitem
+            subBtn.addEventListener("click", () => abrirIframe(sub.url)); // abre iframe
+            submenuLateral.appendChild(subBtn); // adiciona ao submenu
+          });
         });
+
+        // adiciona botão da categoria à lista de categorias
+        categoriasDiv.appendChild(btn);
       });
+    })
+    .catch(err => console.error("Erro ao carregar categorias:", err)); // se der erro, mostra no console
 
-      categoriasDiv.appendChild(btn);
-    });
+  // Resetar para o fundo inicial ao clicar no título
+  tituloPrincipal.addEventListener("click", () => {
+    submenuLateral.classList.remove("active");
+    submenuLateral.innerHTML = "";
+    conteudoDiv.classList.remove("sem-fundo");
+    conteudoDiv.innerHTML = "";
+  });
 
-    // Resetar para o fundo inicial ao clicar no título
-    tituloPrincipal.addEventListener("click", () => {
-      submenuLateral.classList.remove("active");
-      submenuLateral.innerHTML = "";
-      conteudoDiv.classList.remove("sem-fundo");
-      conteudoDiv.innerHTML = "";
-    });
-        // Resetar para o fundo inicial ao clicar no título
-    home.addEventListener("click", () => {
-      submenuLateral.classList.remove("active");
-      submenuLateral.innerHTML = "";
-      conteudoDiv.classList.remove("sem-fundo");
-      conteudoDiv.innerHTML = "";
-    });
-  </script>
+  // Resetar para o fundo inicial ao clicar no ícone home
+  home.addEventListener("click", () => {
+    submenuLateral.classList.remove("active");
+    submenuLateral.innerHTML = "";
+    conteudoDiv.classList.remove("sem-fundo");
+    conteudoDiv.innerHTML = "";
+  });
+</script>
+
 </body>
 </html>
